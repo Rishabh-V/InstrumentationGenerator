@@ -118,6 +118,9 @@ public class ActivityGenerator : IIncrementalGenerator
             string decoratorClassName = $"Instrumented{decoratedClassName}Impl";
             string implClassName = $"{decoratedClassName}Impl";
             string implVariableName = $"_impl";
+            classBuilder.AppendLine("/// <summary>");
+            classBuilder.AppendLine($"/// The instrumented decorated class for {decoratedClassName}.");
+            classBuilder.AppendLine("/// </summary>");
             classBuilder.AppendLine($"public sealed partial class {decoratorClassName} : {decoratedClassName}");
             classBuilder.AppendLine("{");
             // fields
@@ -181,7 +184,7 @@ public class ActivityGenerator : IIncrementalGenerator
             // Add it to the context.
             classBuilder.AppendLine("}");
             // Add the source code to the compilation
-            spc.AddSource($"{decoratedClassName}.g.cs", classBuilder.ToString());
+            spc.AddSource($"{decoratorClassName}.g.cs", classBuilder.ToString());
 
             static (string, string) GetSignatureAndInvocation(ParameterListSyntax pls)
             {
